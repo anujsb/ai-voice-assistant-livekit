@@ -74,7 +74,7 @@ export async function analyzeCall(transcript: TranscriptEntry[]): Promise<{
 {
   "summary": "2-3 sentence summary",
   "sentiment": "positive" | "neutral" | "negative",
-  "intent": "primary reason for call (e.g. Schedule Appointment, Product Inquiry)",
+  "intent": "primary reason for call",
   "resolved": true | false,
   "keyPoints": ["point 1", "point 2"]
 }
@@ -102,8 +102,12 @@ ${text}`,
   }
 }
 
-export async function transcribeAudio(audioBuffer: Buffer): Promise<string> {
-  const file = new File([audioBuffer], 'audio.webm', { type: 'audio/webm' })
+export async function transcribeAudio(audioBuffer: ArrayBuffer): Promise<string> {
+  // Convert ArrayBuffer → Uint8Array → Blob (avoids Buffer type issues)
+  const uint8 = new Uint8Array(audioBuffer)
+  const blob = new Blob([uint8], { type: 'audio/webm' })
+  const file = new File([blob], 'audio.webm', { type: 'audio/webm' })
+
   const result = await groq.audio.transcriptions.create({
     file,
     model: 'whisper-large-v3-turbo',

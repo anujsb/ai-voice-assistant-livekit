@@ -37,14 +37,20 @@ export default function AgentActionsClient({ agentId, agentName, agentGreeting, 
         Test Call
       </button>
 
-      <button onClick={toggleStatus} disabled={toggling}
-        className={cn('px-3 py-2 border rounded-xl text-xs transition-all',
+      <button
+        onClick={toggleStatus}
+        disabled={toggling}
+        className={cn(
+          'px-3 py-2 border rounded-xl text-xs transition-all',
           currentStatus === 'active'
-            ? 'glass border-surface-400/20 text-surface-600 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20'
-            : 'bg-brand-500/10 border-brand-500/20 text-brand-400 hover:bg-brand-500/20')}>
+            ? 'bg-white/5 border-white/10 text-white/50 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20'
+            : 'bg-green-500/10 border-green-500/20 text-green-400 hover:bg-green-500/20'
+        )}>
         {toggling
           ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
-          : currentStatus === 'active' ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+          : currentStatus === 'active'
+            ? <Pause className="w-3.5 h-3.5" />
+            : <Play className="w-3.5 h-3.5" />}
       </button>
 
       {showCall && (
